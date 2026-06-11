@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Detalhes do Apontamento — Ener-Guardian{% endblock %}
+{% block content %}
+<div class="flex items-center gap-4 mb-6">
+    <a href="{{ url_for('apontamentos.historico') }}" class="text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+    </a>
+    <h2 class="font-headline-lg text-headline-lg text-on-surface">Detalhes do Apontamento</h2>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded p-6 tech-shadow max-w-2xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Data da Operação</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ apontamento.data_operacao.strftime('%d/%m/%Y') }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Equipamento</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ apontamento.equipamento.nome }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Setor</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ apontamento.equipamento.setor.nome }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Turno</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ apontamento.turno|capitalize }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Horas de Uso</p>
+            <p class="font-numeric-data text-numeric-data text-on-surface">{{ apontamento.horas_uso }} h</p>
+        </div>
+        {% if apontamento.consumo %}
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Consumo Calculado</p>
+            <p class="font-numeric-data text-numeric-data text-primary font-bold">{{ "%.2f"|format(apontamento.consumo.consumo_kwh) }} kWh</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Custo Estimado</p>
+            <p class="font-numeric-data text-numeric-data text-on-surface">R$ {{ "%.2f"|format(apontamento.consumo.custo_estimado) }}</p>
+        </div>
+        {% endif %}
+        {% if apontamento.observacao %}
+        <div class="col-span-1 md:col-span-2">
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Observação</p>
+            <p class="font-body-md text-body-md text-on-surface">{{ apontamento.observacao }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
