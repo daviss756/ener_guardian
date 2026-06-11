@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Equipamentos — Ener-Guardian{% endblock %}
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Inventário de Equipamentos</h2>
+    <a href="{{ url_for('equipamentos.cadastrar') }}" class="px-4 py-2 bg-primary-container text-on-primary-container font-numeric-data text-numeric-data rounded hover:bg-primary transition-colors flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">add</span> Novo Equipamento
+    </a>
+</div>
+
+<!-- Filters -->
+<div class="flex flex-col md:flex-row gap-4 mb-6">
+    <form method="GET" class="flex flex-col md:flex-row gap-3 flex-1">
+        <select name="setor" onchange="this.form.submit()" class="px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm focus:border-primary-container focus:ring-0">
+            <option value="">Todos os Setores</option>
+            {% for setor in setores %}
+            <option value="{{ setor.id }}" {{ 'selected' if filtro_setor|string == setor.id|string }}>{{ setor.nome }}</option>
+            {% endfor %}
+        </select>
+        <select name="status" onchange="this.form.submit()" class="px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm focus:border-primary-container focus:ring-0">
+            <option value="">Todos os Status</option>
+            <option value="ativo" {{ 'selected' if filtro_status == 'ativo' }}>Ativos</option>
+            <option value="inativo" {{ 'selected' if filtro_status == 'inativo' }}>Inativos</option>
+        </select>
+    </form>
+</div>
+
+<!-- Equipment Table -->
+<div class="bg-surface border border-[#E2E8F0] rounded tech-shadow overflow-hidden">
+    <div class="w-full overflow-x-auto">
+        <div class="grid grid-cols-12 gap-4 p-3 bg-surface-container-lowest border-b border-outline-variant font-label-caps text-label-caps text-tertiary min-w-[800px]">
+            <div class="col-span-3">EQUIPAMENTO</div>
+            <div class="col-span-2">TIPO</div>
+            <div class="col-span-2">SETOR</div>
+            <div class="col-span-1 text-right">POTÊNCIA</div>
+            <div class="col-span-1 text-right">VOLTAGEM</div>
+            <div class="col-span-1 text-center">STATUS</div>
+            <div class="col-span-2 text-center">AÇÕES</div>
+        </div>
+        {% for equip in equipamentos %}
+        <div class="grid grid-cols-12 gap-4 p-3 items-center border-b border-[#F1F5F9] hover:bg-[#F8FAFC] transition-colors min-w-[800px] {{ 'bg-[#F8FAFC]/50' if loop.index is even }}">
+            <div class="col-span-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-tertiary text-[20px]">precision_manufacturing</span>
+                <a href="{{ url_for('equipamentos.detalhes', id=equip.id) }}" class="font-body-md text-primary font-semibold hover:underline">{{ equip.nome }}</a>
+            </div>
+            <div class="col-span-2 font-body-sm text-on-surface-variant">{{ equip.tipo }}</div>
+            <div class="col-span-2 font-body-sm text-on-surface-variant">{{ equip.setor.nome }}</div>
+            <div class="col-span-1 font-numeric-data text-numeric-data text-on-surface text-right">{{ "%.0f"|format(equip.potencia_watts) }}W</div>
+            <div class="col-span-1 font-numeric-data text-numeric-data text-on-surface text-right">{{ "%.0f"|format(equip.voltagem) if equip.voltagem else '—' }}V</div>
+            <div class="col-span-1 flex justify-center">
+                {% if equip.ativo %}
+                <div class="px-2 py-1 bg-primary-container/10 text-primary-container font-label-caps text-[10px] rounded border border-primary-container/20 flex items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary-container mr-1"></span> Ativo
+                </div>
+                {% else %}
+                <div class="px-2 py-1 bg-surface-variant text-on-surface-variant font-label-caps text-[10px] rounded border border-outline-variant flex items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1"></span> Inativo
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-span-2 flex justify-center gap-2">
+                <a href="{{ url_for('equipamentos.editar', id=equip.id) }}" class="px-3 py-1 border border-outline-variant text-on-surface font-body-sm rounded hover:bg-surface-variant transition-colors">Editar</a>
+                <form method="POST" action="{{ url_for('equipamentos.excluir', id=equip.id) }}" onsubmit="return confirm('Confirma exclusão?')">
+                    <button class="px-3 py-1 border border-error/30 text-error font-body-sm rounded hover:bg-error-container transition-colors">Excluir</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% if not equipamentos %}
+        <div class="p-8 text-center text-on-surface-variant">
+            <span class="material-symbols-outlined text-4xl mb-2 block text-outline-variant">inventory_2</span>
+            <p class="font-body-md">Nenhum equipamento cadastrado.</p>
+            <a href="{{ url_for('equipamentos.cadastrar') }}" class="text-primary-container hover:underline font-body-sm mt-2 inline-block">Cadastrar primeiro equipamento →</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

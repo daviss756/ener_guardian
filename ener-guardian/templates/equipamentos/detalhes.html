@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Detalhes do Equipamento — Ener-Guardian{% endblock %}
+{% block content %}
+<div class="flex items-center gap-4 mb-6">
+    <a href="{{ url_for('equipamentos.listar') }}" class="text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+    </a>
+    <h2 class="font-headline-lg text-headline-lg text-on-surface">Detalhes do Equipamento</h2>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded p-6 tech-shadow max-w-2xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Nome</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ equipamento.nome }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Tipo</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ equipamento.tipo }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Setor</p>
+            <p class="font-body-lg text-body-lg text-on-surface">{{ equipamento.setor.nome }}</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Status</p>
+            <p class="font-body-lg text-body-lg {{ 'text-primary' if equipamento.ativo else 'text-error' }} font-bold">
+                {{ 'Ativo' if equipamento.ativo else 'Inativo' }}
+            </p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Potência (Watts)</p>
+            <p class="font-numeric-data text-numeric-data text-on-surface">{{ equipamento.potencia_watts }} W</p>
+        </div>
+        <div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Voltagem</p>
+            <p class="font-numeric-data text-numeric-data text-on-surface">{{ equipamento.voltagem or 'N/A' }} V</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

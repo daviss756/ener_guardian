@@ -1,0 +1,88 @@
+/* Corporate Design System for Ener-Guardian */
+
+body {
+    background-color: #f8f9fa;
+    color: #333333;
+    font-family: 'Inter', sans-serif;
+}
+
+.bg-surface {
+    background-color: #ffffff;
+}
+
+.text-primary {
+    color: #005A3E;
+}
+
+.bg-primary {
+    background-color: #006C49;
+}
+
+.bg-primary:hover {
+    background-color: #005A3E;
+}
+
+.text-on-primary {
+    color: #ffffff;
+}
+
+.border-primary {
+    border-color: #006C49;
+}
+
+.tech-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+}
+
+.transition {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Glass-morphism elements */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Custom form elements */
+select, input[type="date"], input[type="number"] {
+    appearance: none;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+}
+
+select:focus, input[type="date"]:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: #006c49;
+    box-shadow: 0 0 0 2px rgba(0, 108, 73, 0.2);
+}
+
+.font-label-caps {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.hover\:bg-\[\#F8FAFC\]:hover {
+    background-color: #f8fafc;
+}
+
+.bg-surface-container-lowest {
+    background-color: #ffffff;
+}
+
+.border-outline-variant {
+    border-color: #e2e8f0;
+}
+
+.text-on-surface-variant {
+    color: #475569;
+}
+
+.font-numeric-data {
+    font-family: 'Inter', monospace;
+}
